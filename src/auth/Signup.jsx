@@ -1,8 +1,9 @@
 import { useState } from "react";
 import "./Signup.css";
 import authService from "../services/authService";
+import { Link } from "react-router";
 
-function Signup({ setPage }) {
+function Signup() {
 
   const [name, setName] = useState("");
   const [dob, setDob] = useState("");
@@ -67,9 +68,8 @@ function Signup({ setPage }) {
 
           <p className="login-link">
             Already have an account?
-            <span onClick={() => setPage("login")}>
-              Login
-            </span>
+           
+            <Link id="one"  to={'/login'}>Login</Link>
           </p>
 
         </form>

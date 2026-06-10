@@ -1,0 +1,189 @@
+.dashboard-container{
+    min-height:calc(100vh - 70px);
+
+    padding:40px;
+
+    color:white;
+}
+
+.dashboard-header{
+    text-align:center;
+
+    margin-bottom:40px;
+}
+
+.dashboard-header h1{
+    font-size:48px;
+
+    font-weight:300;
+
+    margin-bottom:10px;
+}
+
+.dashboard-header p{
+    color:rgba(255,255,255,0.8);
+
+    font-size:18px;
+}
+
+/* CARDS SECTION */
+
+.dashboard-cards{
+    display:grid;
+
+    grid-template-columns:
+    repeat(auto-fit,minmax(250px,1fr));
+
+    gap:25px;
+
+    margin-bottom:40px;
+}
+
+.card{
+    background:rgba(255,255,255,0.08);
+
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+
+    border:1px solid rgba(255,255,255,0.15);
+
+    border-radius:20px;
+
+    padding:30px;
+
+    text-align:center;
+
+    transition:all 0.4s ease;
+
+    position:relative;
+
+    overflow:hidden;
+
+    box-shadow:
+        0 8px 32px rgba(0,0,0,0.25);
+}
+
+/* SHINE EFFECT */
+
+.card::before{
+    content:"";
+
+    position:absolute;
+
+    top:0;
+    left:-100%;
+
+    width:100%;
+    height:100%;
+
+    background:
+    linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,0.15),
+        transparent
+    );
+
+    transition:0.8s;
+}
+
+.card:hover::before{
+    left:100%;
+}
+
+/* HOVER EFFECT */
+
+.card:hover{
+    transform:
+        translateY(-10px)
+        scale(1.03);
+
+    border-color:
+        rgba(255,255,255,0.3);
+
+    box-shadow:
+        0 15px 40px rgba(0,0,0,0.35);
+}
+
+.card h2{
+    margin-bottom:15px;
+
+    font-size:24px;
+
+    font-weight:500;
+}
+
+.card p{
+    font-size:36px;
+
+    font-weight:bold;
+
+    transition:0.3s;
+}
+
+.card:hover p{
+    color:#00d084;
+
+    text-shadow:
+        0 0 15px rgba(0,208,132,0.8);
+}
+
+/* TRANSACTION SECTION */
+
+.recent-transactions{
+    background:rgba(255,255,255,0.08);
+
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+
+    border:1px solid rgba(255,255,255,0.15);
+
+    border-radius:20px;
+
+    padding:25px;
+
+    box-shadow:
+        0 8px 32px rgba(0,0,0,0.25);
+}
+
+.recent-transactions h2{
+    margin-bottom:20px;
+
+    font-size:28px;
+}
+
+.transaction{
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:15px;
+
+    margin-bottom:12px;
+
+    border-radius:12px;
+
+    background:rgba(255,255,255,0.05);
+
+    transition:0.3s;
+}
+
+.transaction:hover{
+    background:rgba(255,255,255,0.12);
+
+    transform:translateX(8px);
+}
+
+.income-row span:last-child{
+    color:#00d084;
+
+    font-weight:bold;
+}
+
+.expense-row span:last-child{
+    color:#ff6b6b;
+
+    font-weight:bold;
+}

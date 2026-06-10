@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./Login.css";
 import authService from "../services/authService";
+import { Link } from "react-router";
 
 function Login({ setPage }) {
 
@@ -65,9 +66,7 @@ function Login({ setPage }) {
 
           <p className="signup-link">
             Don't have an account?
-            <span onClick={() => setPage("signup")}>
-              Sign Up
-            </span>
+            <Link id="one" to="/signup">Sign up</Link>
           </p>
 
         </form>

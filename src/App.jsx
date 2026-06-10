@@ -1,22 +1,10 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import { RouterProvider } from 'react-router'
+import router from './router/Router';
 
-import Login from './auth/Login'
-import Signup from './auth/Signup'
 function App() {
-
-  const [page, setPage] = useState("login");
-
   return (
     <>
-      {
-        page === "login"
-        ? <Login setPage={setPage}/>
-        : <Signup setPage={setPage}/>
-      }
+      <RouterProvider router={router} />
     </>
   );
 }
