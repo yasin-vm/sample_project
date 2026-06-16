@@ -1,177 +1,532 @@
-/* SEARCH SECTION */
-
-.search-section{
-    display:flex;
-    justify-content:center;
-    gap:15px;
-    margin-bottom:35px;
-    flex-wrap:wrap;
+/* =========================
+   CORE CONTAINER & HEADER
+========================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
 }
 
-.search-section input{
-    padding:12px 15px;
-
-    border:none;
-
-    border-radius:10px;
-
-    background:rgba(255,255,255,0.08);
-
-    color:white;
-
-    backdrop-filter:blur(10px);
-
-    outline:none;
+.dashboard-container {
+    min-height: 100vh;
+    padding: 40px;
+    color: white;
 }
 
-.search-section button{
-    padding:12px 25px;
-
-    border:none;
-
-    border-radius:10px;
-
-    cursor:pointer;
-
-    font-weight:bold;
-
-    background:#00d084;
-
-    color:white;
-
-    transition:0.3s;
+.dashboard-header {
+    text-align: center;
+    margin-bottom: 40px;
+    padding-top: 20px;
 }
 
-.search-section button:hover{
-    transform:translateY(-3px);
+.dashboard-header h1 {
+    font-size: 38px;
+    margin-bottom: 10px;
 }
 
-/* GRAPH SECTION */
-
-.graph-section{
-    background:rgba(255,255,255,0.08);
-
-    backdrop-filter:blur(20px);
-    -webkit-backdrop-filter:blur(20px);
-
-    border:1px solid rgba(255,255,255,0.15);
-
-    border-radius:20px;
-
-    padding:25px;
-
-    margin-bottom:30px;
-
-    box-shadow:
-        0 8px 32px rgba(0,0,0,0.25);
+.dashboard-header p {
+    opacity: 0.8;
 }
 
-.graph-section h2{
-    margin-bottom:20px;
+/* =========================
+   SEARCH SECTION (DATE ACCORD)
+========================= */
+.search-section {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 35px;
+    flex-wrap: wrap;
 }
 
-.graph-box{
-    height:250px;
-
-    display:flex;
-
-    justify-content:center;
-    align-items:center;
-
-    border-radius:15px;
-
-    background:rgba(255,255,255,0.05);
-
-    font-size:24px;
-
-    color:rgba(255,255,255,0.8);
+.search-section input,
+.search-section button {
+    padding: 12px 15px;
+    border: none;
+    border-radius: 12px;
 }
 
-/* PIE CHART SECTION */
-
-.pie-section{
-    background:rgba(255,255,255,0.08);
-
-    backdrop-filter:blur(20px);
-    -webkit-backdrop-filter:blur(20px);
-
-    border:1px solid rgba(255,255,255,0.15);
-
-    border-radius:20px;
-
-    padding:25px;
-
-    margin-bottom:30px;
-
-    box-shadow:
-        0 8px 32px rgba(0,0,0,0.25);
+.search-section input {
+    background: rgba(255, 255, 255, 0.08);
+    color: white;
+    backdrop-filter: blur(10px);
 }
 
-.pie-section h2{
-    margin-bottom:20px;
+.search-section button {
+    background: #00d084;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
 }
 
-.pie-box{
-    height:250px;
-
-    display:flex;
-
-    justify-content:center;
-    align-items:center;
-
-    border-radius:15px;
-
-    background:rgba(255,255,255,0.05);
-
-    font-size:24px;
-
-    color:rgba(255,255,255,0.8);
-}
-.dashboard-container{
-    min-height:100vh;
-    padding:40px;
-    color:white;
+.search-section button:hover {
+    transform: translateY(-3px);
 }
 
-.dashboard-cards{
+.search-result {
+    padding: 25px;
+    margin-bottom: 30px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 20px;
+    backdrop-filter: blur(25px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+}
+
+.search-result h3 {
+    margin-bottom: 15px;
+}
+
+/* =========================
+   METRIC SUMMARY CARDS
+========================= */
+.dashboard-cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.card {
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    padding: 25px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 20px;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+    transition: all 0.4s ease;
+    cursor: pointer;
+}
+
+/* Shine overlay effect */
+.card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -120%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.25),
+        transparent
+    );
+    transform: skewX(-25deg);
+    transition: 0.8s;
+}
+
+.card:hover::before {
+    left: 150%;
+}
+
+.card:hover {
+    transform: translateY(-8px) scale(1.03);
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
+}
+
+.card h2 {
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+
+.card p {
+    font-size: 32px;
+    font-weight: bold;
+}
+
+/* =========================
+   CHARTS DISPLAY GRID
+========================= */
+.charts-container {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 25px;
+    margin-bottom: 30px;
+}
+
+.graph-section,
+.pie-section {
+    padding: 25px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 20px;
+    backdrop-filter: blur(25px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+    transition: 0.3s ease;
+}
+
+.graph-section:hover,
+.pie-section:hover {
+    transform: translateY(-4px);
+}
+
+.graph-section h2,
+.pie-section h2 {
+    margin-bottom: 20px;
+}
+
+.graph-box,
+.pie-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 15px;
+    height: 250px;
+}
+
+/* =========================
+   TOOLBAR UTILITIES
+========================= */
+.transaction-toolbar {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.transaction-toolbar input,
+.transaction-toolbar select {
+    padding: 12px 15px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.08);
+    color: white;
+    font-size: 14px;
+    height: 45px; /* Locked standard height alignment */
+    box-sizing: border-box; 
+}
+
+.transaction-toolbar input {
+    flex: 1;
+    min-width: 220px;
+}
+
+/* Custom dropdown pointer correction to prevent spacing displacement */
+.transaction-toolbar select {
+    cursor: pointer;
+    min-width: 100px;
+    padding-right: 30px;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 14px;
+}
+
+.transaction-toolbar select option {
+    background-color: #1e1e1e;
+    color: white;
+}
+
+.transaction-toolbar > button {
+    height: 45px; /* Unified height matches inputs/selects perfectly */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #00d084, #00b36b);
+    color: white;
+    border: none;
+    padding: 0 22px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 600;
+    box-shadow: 0 10px 25px rgba(0, 208, 132, 0.35);
+    transition: 0.3s ease;
+}
+
+.transaction-toolbar button:hover {
+    transform: translateY(-3px) scale(1.03);
+}
+
+/* =========================
+   TRANSACTIONS DATA TABLE
+========================= */
+.recent-transactions {
+    padding: 25px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 20px;
+    backdrop-filter: blur(25px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+}
+
+.recent-transactions h2 {
+    margin-bottom: 20px;
+}
+
+/* Absolute synchronized grid constraints */
+.transaction-header,
+.transaction-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1.5fr 1fr;
+    align-items: center; 
+}
+
+.transaction-header {
+    font-weight: bold;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    margin-bottom: 10px;
+    padding-bottom: 12px;
+}
+
+/* Forces the "Action" column header text to align directly over the icons */
+.transaction-header span:last-child {
+    text-align: center;
+    width: 100%;
+}
+
+.transaction-row {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 10px;
+    margin-bottom: 8px;
+    padding: 10px 0; 
+    transition: all 0.3s ease;
+}
+
+.transaction-row:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateX(4px);
+}
+
+/* Row display alignment handles */
+.transaction-row > span {
+    display: flex;
+    align-items: center;
+}
+
+/* Type Status Badges */
+.income-badge,
+.expense-badge {
+    padding: 6px 16px;
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    text-transform: capitalize;
+}
+
+.income-badge {
+    background: rgba(0, 208, 132, 0.15);
+    color: #39ffb0;
+    border: 1px solid rgba(0, 208, 132, 0.3);
+}
+
+.expense-badge {
+    background: rgba(255, 107, 107, 0.15);
+    color: #ff8d8d;
+    border: 1px solid rgba(255, 107, 107, 0.3);
+}
+
+/* =========================
+   ROW ACTION BUTTON INSTANCES
+========================= */
+.action-buttons {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    align-items: center;
+    height: 36px; /* Lock boundary layout constraint */
+}
+
+.icon-btn {
+    width: 36px !important;
+    height: 36px !important;
+    min-width: 36px !important;
+    max-width: 36px !important;
+    padding: 0 !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 14px;
+    flex-shrink: 0;
+    transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.edit-btn {
+    color: #00d084 !important;
+    border: 2px solid rgba(0, 208, 132, 0.4) !important;
+    background: rgba(0, 208, 132, 0.08) !important;
+}
+
+.edit-btn:hover {
+    background: rgba(0, 208, 132, 0.2) !important;
+    box-shadow: 0 0 10px rgba(0, 208, 132, 0.25);
+}
+
+.delete-btn {
+    color: #ff6b8f !important;
+    border: 2px solid rgba(255, 107, 143, 0.4) !important;
+    background: rgba(255, 107, 143, 0.08) !important;
+}
+
+.delete-btn:hover {
+    background: rgba(255, 107, 143, 0.2) !important;
+    box-shadow: 0 0 10px rgba(255, 107, 143, 0.25);
+}
+
+.icon-btn:hover {
+    transform: translateY(-2px) scale(1.08);
+}
+
+/* =========================
+   POPUP LAYOUT MODAL
+========================= */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.75);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    animation: fadeIn 0.25s ease;
+}
+
+.modal-content {
+    width: 550px;
+    max-width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    background: linear-gradient(135deg, #1e1e1e, #2a2a2a);
+    border-radius: 25px;
+    padding: 25px;
+    position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.45);
+    animation: popupOpen 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    border: none;
+    background: none;
+    color: white;
+    font-size: 22px;
+    cursor: pointer;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.close-btn:hover {
+    color: #ff6b6b;
+    transform: rotate(90deg);
+}
+
+/* Global Focus Handles */
+input:focus, select:focus {
+    outline: none;
+    border: 1px solid #00d084;
+    box-shadow: 0 0 15px rgba(0, 208, 132, 0.4);
+}
+
+/* =========================
+   KEYFRAME GRAPHICS
+========================= */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes popupOpen {
+    from {
+        opacity: 0;
+        transform: scale(0.8) translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* =========================
+   RESPONSIVE DESIGN SYSTEM
+========================= */
+@media(max-width: 900px) {
+    .charts-container {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-cards {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .transaction-header,
+    .transaction-row {
+        grid-template-columns: 1.5fr 1fr 1fr 1fr;
+    }
+}
+
+@media(max-width: 600px) {
+    .dashboard-container {
+        padding: 20px;
+    }
+
+    .dashboard-cards {
+        grid-template-columns: 1fr;
+    }
+}
+.search-stats{
     display:grid;
     grid-template-columns:repeat(4,1fr);
-    gap:20px;
-    margin-bottom:30px;
+    gap:15px;
+    margin-top:20px;
 }
 
-.card{
-    background:rgba(255,255,255,0.08);
-    border-radius:20px;
-    padding:25px;
+.stat-card{
+    background:rgba(255,255,255,0.05);
+    border:1px solid rgba(255,255,255,0.12);
+    border-radius:18px;
+    padding:20px;
     text-align:center;
+    backdrop-filter:blur(20px);
 }
 
-.card h2{
+.stat-card span{
+    display:block;
+    opacity:.7;
     margin-bottom:10px;
+    font-size:14px;
 }
 
-.card p{
-    font-size:32px;
-    font-weight:bold;
+.stat-card h2{
+    margin:0;
+    font-size:28px;
 }
 
-.recent-transactions{
-    background:rgba(255,255,255,0.08);
-    border-radius:20px;
-    padding:25px;
+.income-stat h2{
+    color:#39ffb0;
 }
 
-.transaction{
-    display:flex;
-    justify-content:space-between;
-    padding:12px 0;
+.expense-stat h2{
+    color:#ff8d8d;
 }
 
-.income-row span:last-child{
-    color:#00d084;
+.savings-stat h2{
+    color:#7d9cff;
 }
 
-.expense-row span:last-child{
-    color:#ff6b6b;
+@media(max-width:900px){
+
+    .search-stats{
+        grid-template-columns:1fr 1fr;
+    }
 }

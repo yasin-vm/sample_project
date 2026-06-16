@@ -4,7 +4,7 @@ import Signup from "../auth/Signup";
 import Dashbord from "../pages/dashbord/Dashbord";
 import Layout from "../layout/Layout";
 import Profile from "../pages/profile/Profile";
-
+import AddTransaction from "../components/buttons/AddTransaction";
 const router = createBrowserRouter([
     
     {
@@ -27,6 +27,10 @@ const router = createBrowserRouter([
         path:'dashbord',
         element:<Dashbord/>
     },
+    {
+        path: 'addTransaction', // Your new sub-page path. Accessible at /app/add-transaction
+        element: <AddTransaction />
+      },
     {
         path:'profile',
         element:<Profile/>
