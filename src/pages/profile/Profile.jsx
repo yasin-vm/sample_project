@@ -1,5 +1,6 @@
 import "./Profile.css";
-import { useState } from "react";
+import { useEffect,useState } from "react";
+import authService from "../../services/authService";
 
 function Profile() {
 
@@ -12,12 +13,47 @@ function Profile() {
     username: ""
   });
 
+  useEffect(() => {
+
+  const storedUser = JSON.parse(
+    localStorage.getItem("user")
+  );
+
+  if(storedUser){
+    setUser(storedUser);
+  }
+
+}, []);
+
   const handleChange = (e) => {
     setUser({
       ...user,
       [e.target.name]: e.target.value
     });
   };
+
+  const saveProfile = async () => {
+
+  const result = await authService.updateProfile(user);
+
+  if(result.success){
+
+    localStorage.setItem(
+      "user",
+      JSON.stringify(result.data)
+    );
+
+    alert("Profile Updated");
+
+    setUser(result.data);
+
+    setEditing(false);
+
+  } else {
+
+    alert(result.message);
+  }
+};
 
   return (
     <div className="profile-container">
@@ -73,7 +109,8 @@ function Profile() {
                 />
               )
               : (
-                <p>{user.dob}</p>
+                //<p>{user.dob}</p>
+                <p>{user.dob?.split("T")[0]}</p>
               )
             }
           </div>
@@ -121,12 +158,12 @@ function Profile() {
         {
           editing
           ? (
-            <button
-              className="edit-btn"
-              onClick={() => setEditing(false)}
+           <button
+             className="edit-btn"
+              onClick={saveProfile}
             >
-              Save Profile
-            </button>
+            Save Profile
+           </button>
           )
           : (
             <button

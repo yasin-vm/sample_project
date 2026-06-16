@@ -84,7 +84,7 @@
     border:1px solid rgba(255,255,255,0.3);
 }
 
-.signup-card button{
+/* .signup-card button{
     padding:15px;
 
     border:none;
@@ -104,7 +104,7 @@
     cursor:pointer;
 
     transition:0.3s;
-}
+} */
 
 .signup-card button:hover{
     transform:translateY(-2px);

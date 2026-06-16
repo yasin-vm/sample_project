@@ -12,19 +12,19 @@ function Layout() {
         </div>
 
         <div className="nav-links">
-          <Link to="/home">Home</Link>
 
-          <Link to="/dashbord">
+          <Link to="/app/dashbord">
             Dashboard
           </Link>
 
-          <Link to="/profile">
+          <Link to="/app/profile">
             Profile
           </Link>
 
-          <Link to="/login">
+          <Link to="/">
             Logout
           </Link>
+
         </div>
 
       </div>

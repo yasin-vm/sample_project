@@ -1,136 +1,54 @@
-.dashboard-container{
-    min-height:calc(100vh - 70px);
+/* SEARCH SECTION */
 
-    padding:40px;
-
-    color:white;
+.search-section{
+    display:flex;
+    justify-content:center;
+    gap:15px;
+    margin-bottom:35px;
+    flex-wrap:wrap;
 }
 
-.dashboard-header{
-    text-align:center;
+.search-section input{
+    padding:12px 15px;
 
-    margin-bottom:40px;
-}
+    border:none;
 
-.dashboard-header h1{
-    font-size:48px;
+    border-radius:10px;
 
-    font-weight:300;
-
-    margin-bottom:10px;
-}
-
-.dashboard-header p{
-    color:rgba(255,255,255,0.8);
-
-    font-size:18px;
-}
-
-/* CARDS SECTION */
-
-.dashboard-cards{
-    display:grid;
-
-    grid-template-columns:
-    repeat(auto-fit,minmax(250px,1fr));
-
-    gap:25px;
-
-    margin-bottom:40px;
-}
-
-.card{
     background:rgba(255,255,255,0.08);
 
-    backdrop-filter:blur(20px);
-    -webkit-backdrop-filter:blur(20px);
+    color:white;
 
-    border:1px solid rgba(255,255,255,0.15);
+    backdrop-filter:blur(10px);
 
-    border-radius:20px;
-
-    padding:30px;
-
-    text-align:center;
-
-    transition:all 0.4s ease;
-
-    position:relative;
-
-    overflow:hidden;
-
-    box-shadow:
-        0 8px 32px rgba(0,0,0,0.25);
+    outline:none;
 }
 
-/* SHINE EFFECT */
+.search-section button{
+    padding:12px 25px;
 
-.card::before{
-    content:"";
+    border:none;
 
-    position:absolute;
+    border-radius:10px;
 
-    top:0;
-    left:-100%;
-
-    width:100%;
-    height:100%;
-
-    background:
-    linear-gradient(
-        90deg,
-        transparent,
-        rgba(255,255,255,0.15),
-        transparent
-    );
-
-    transition:0.8s;
-}
-
-.card:hover::before{
-    left:100%;
-}
-
-/* HOVER EFFECT */
-
-.card:hover{
-    transform:
-        translateY(-10px)
-        scale(1.03);
-
-    border-color:
-        rgba(255,255,255,0.3);
-
-    box-shadow:
-        0 15px 40px rgba(0,0,0,0.35);
-}
-
-.card h2{
-    margin-bottom:15px;
-
-    font-size:24px;
-
-    font-weight:500;
-}
-
-.card p{
-    font-size:36px;
+    cursor:pointer;
 
     font-weight:bold;
+
+    background:#00d084;
+
+    color:white;
 
     transition:0.3s;
 }
 
-.card:hover p{
-    color:#00d084;
-
-    text-shadow:
-        0 0 15px rgba(0,208,132,0.8);
+.search-section button:hover{
+    transform:translateY(-3px);
 }
 
-/* TRANSACTION SECTION */
+/* GRAPH SECTION */
 
-.recent-transactions{
+.graph-section{
     background:rgba(255,255,255,0.08);
 
     backdrop-filter:blur(20px);
@@ -142,48 +60,118 @@
 
     padding:25px;
 
+    margin-bottom:30px;
+
     box-shadow:
         0 8px 32px rgba(0,0,0,0.25);
 }
 
-.recent-transactions h2{
+.graph-section h2{
     margin-bottom:20px;
+}
 
-    font-size:28px;
+.graph-box{
+    height:250px;
+
+    display:flex;
+
+    justify-content:center;
+    align-items:center;
+
+    border-radius:15px;
+
+    background:rgba(255,255,255,0.05);
+
+    font-size:24px;
+
+    color:rgba(255,255,255,0.8);
+}
+
+/* PIE CHART SECTION */
+
+.pie-section{
+    background:rgba(255,255,255,0.08);
+
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+
+    border:1px solid rgba(255,255,255,0.15);
+
+    border-radius:20px;
+
+    padding:25px;
+
+    margin-bottom:30px;
+
+    box-shadow:
+        0 8px 32px rgba(0,0,0,0.25);
+}
+
+.pie-section h2{
+    margin-bottom:20px;
+}
+
+.pie-box{
+    height:250px;
+
+    display:flex;
+
+    justify-content:center;
+    align-items:center;
+
+    border-radius:15px;
+
+    background:rgba(255,255,255,0.05);
+
+    font-size:24px;
+
+    color:rgba(255,255,255,0.8);
+}
+.dashboard-container{
+    min-height:100vh;
+    padding:40px;
+    color:white;
+}
+
+.dashboard-cards{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:20px;
+    margin-bottom:30px;
+}
+
+.card{
+    background:rgba(255,255,255,0.08);
+    border-radius:20px;
+    padding:25px;
+    text-align:center;
+}
+
+.card h2{
+    margin-bottom:10px;
+}
+
+.card p{
+    font-size:32px;
+    font-weight:bold;
+}
+
+.recent-transactions{
+    background:rgba(255,255,255,0.08);
+    border-radius:20px;
+    padding:25px;
 }
 
 .transaction{
     display:flex;
-
     justify-content:space-between;
-
-    align-items:center;
-
-    padding:15px;
-
-    margin-bottom:12px;
-
-    border-radius:12px;
-
-    background:rgba(255,255,255,0.05);
-
-    transition:0.3s;
-}
-
-.transaction:hover{
-    background:rgba(255,255,255,0.12);
-
-    transform:translateX(8px);
+    padding:12px 0;
 }
 
 .income-row span:last-child{
     color:#00d084;
-
-    font-weight:bold;
 }
 
 .expense-row span:last-child{
     color:#ff6b6b;
-
-    font-weight:bold;
 }

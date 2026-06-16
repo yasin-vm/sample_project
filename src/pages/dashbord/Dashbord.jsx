@@ -9,12 +9,23 @@ function Dashbord() {
         <p>Track your money efficiently 💰</p>
       </div>
 
-      <div className="dashboard-cards">
+      <div className="search-section">
 
-        <div className="card balance">
-          <h2>Total Balance</h2>
-          <p>₹25,000</p>
-        </div>
+        <input
+          type="date"
+        />
+
+        <input
+          type="date"
+        />
+
+        <button>
+          Search
+        </button>
+
+      </div>
+
+      <div className="dashboard-cards">
 
         <div className="card income">
           <h2>Total Income</h2>
@@ -29,6 +40,31 @@ function Dashbord() {
         <div className="card savings">
           <h2>Total Savings</h2>
           <p>₹25,000</p>
+        </div>
+
+        <div className="card transactions">
+          <h2>Transactions</h2>
+          <p>125</p>
+        </div>
+
+      </div>
+
+      <div className="graph-section">
+
+        <h2>Expense Analysis</h2>
+
+        <div className="graph-box">
+          Graph Coming Soon 📈
+        </div>
+
+      </div>
+
+      <div className="pie-section">
+
+        <h2>Expense Categories</h2>
+
+        <div className="pie-box">
+          Pie Chart Coming Soon 🥧
         </div>
 
       </div>

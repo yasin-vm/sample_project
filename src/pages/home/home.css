@@ -118,7 +118,7 @@
 .secondary-btn{
     background:rgba(255,255,255,0.12);
 
-    color:white;
+    color:rgb(255, 255, 255);
 
     border:1px solid rgba(255,255,255,0.15);
 }

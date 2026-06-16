@@ -1,43 +1,58 @@
 import api from "./api"
-const authService ={
-    login: async (name,password)=>{
-        // console.log(name,password)
+
+const authService = {
+
+      login: async (username,password) => {
+
         try {
-             const res = await  api.post('/Login',{name,password} ) //both key and values are same ,so doesnt need to add keys
-             return res.data
-            }
-            catch(err)
-            {
-                console.log(err);
-                
-                return err
-            }
 
-     },
-     signup: async (name,dob,email,username, password ) => {
+            const res = await api.post('/login', {
+            username,
+            password
+            });
+            return res.data;
 
-    console.log(name,dob,email,username,password );
+        } catch(err) {
+           return err.response.data;
+         }
+    },
 
-    try {
+    signup: async (name,dob,phone,email,username,password) => {
 
-        const res = await api.post("/Signup",
-            {
+        try {
+            // http://localhost:3000/api/signup
+
+            const res = await api.post('/signup', {
                 name,
                 dob,
+                phone,
                 email,
                 username,
                 password
-            }
+            });
+
+            return res.data;
+
+        } catch(err) {
+          return err.response.data;
+         }
+    },
+    updateProfile: async (user) => {
+
+    try {
+
+        const res = await api.put(
+            '/profile',
+            user
         );
 
         return res.data;
 
+    } catch(err) {
+
+        return err.response.data;
     }
-    catch(err)
-    {
-        console.log(err);
-        return err;
     }
 }
-}
+
 export default authService;

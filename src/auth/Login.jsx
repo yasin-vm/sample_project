@@ -1,30 +1,44 @@
 import { useState } from "react";
 import "./Login.css";
 import authService from "../services/authService";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
+import Button from "../components/buttons/Button";
 
 function Login({ setPage }) {
 
-  const [name, setName] = useState("");
-  const [pass, setPass] = useState("");
+  const navigate = useNavigate();
 
-  const handleName = (event) => {
-    setName(event.target.value);
-  };
+  const [username, setUsername] = useState("");
+const [password, setPassword] = useState("");
+
+const handleUsername = (event) => {
+  setUsername(event.target.value);
+};
 
   const handlePassword = (event) => {
-    setPass(event.target.value);
-  };
-
+  setPassword(event.target.value);
+};
   const handleLogin = async (event) => {
     event.preventDefault();
 
-    console.log(name, pass);
+    console.log(username, password);
 
-    const result = await authService.login(
-      name,
-      pass
+const result = await authService.login(
+  username,
+  password
+);
+if(result.success){
+
+    localStorage.setItem(
+        "user",
+        JSON.stringify(result.data)
     );
+   // alert("Login Successful");
+    navigate('/app/dashbord');
+}
+else{
+    alert(result.message);
+}
 
     console.log(result);
   };
@@ -38,9 +52,9 @@ function Login({ setPage }) {
         <form onSubmit={handleLogin}>
 
           <input
-            type="text"
-            placeholder="User Name"
-            onChange={handleName}
+           type="text"
+           placeholder="User Name"
+            onChange={handleUsername}
           />
 
           <input
@@ -60,9 +74,7 @@ function Login({ setPage }) {
             </a>
           </div>
 
-          <button type="submit">
-            LOGIN
-          </button>
+          <Button buttonText={'LOGIN'} type={'submit'} />
 
           <p className="signup-link">
             Don't have an account?

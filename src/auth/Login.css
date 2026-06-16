@@ -109,7 +109,7 @@
     color:#00d084;
 }
 
-.login-card button{
+button{
     padding:15px;
 
     border:none;
@@ -117,7 +117,7 @@
 
     background:linear-gradient(
         135deg,
-        #00d084,
+        #00d084, 
         #00a86b
     );
 

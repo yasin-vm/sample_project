@@ -1,15 +1,19 @@
 import { useState } from "react";
 import "./Signup.css";
 import authService from "../services/authService";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
+import Button from "../components/buttons/Button";
 
 function Signup() {
 
   const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
   const [dob, setDob] = useState("");
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
+  const navigate = useNavigate();
 
   const handleSignup = async (event) => {
     event.preventDefault();
@@ -17,12 +21,20 @@ function Signup() {
     const result = await authService.signup(
       name,
       dob,
+      phone,
       email,
       username,
       password
     );
 
     console.log(result);
+    if(result.success){
+    alert("Account Created Successfully");
+    navigate('/');
+    }
+    else{
+    alert(result.message);
+    }
   };
 
   return (
@@ -45,6 +57,12 @@ function Signup() {
           />
 
           <input
+           type="text"
+           placeholder="Phone Number"
+            onChange={(e) => setPhone(e.target.value)}
+          />
+
+          <input
             type="email"
             placeholder="Email"
             onChange={(e) => setEmail(e.target.value)}
@@ -62,9 +80,7 @@ function Signup() {
             onChange={(e) => setPassword(e.target.value)}
           />
 
-          <button type="submit">
-            SIGN UP
-          </button>
+          <Button buttonText={'SIGNUP'} type={'submit'} />
 
           <p className="login-link">
             Already have an account?
