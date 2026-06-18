@@ -1,7 +1,7 @@
 import "./Profile.css";
-import { useEffect,useState } from "react";
+import { useEffect, useState } from "react";
 import authService from "../../services/authService";
-
+import { toast } from "react-toastify";
 function Profile() {
 
   const [editing, setEditing] = useState(false);
@@ -10,20 +10,21 @@ function Profile() {
     name: "",
     dob: "",
     email: "",
-    username: ""
+    username: "",
+    budgetLimit: 20000
   });
 
   useEffect(() => {
 
-  const storedUser = JSON.parse(
-    localStorage.getItem("user")
-  );
+    const storedUser = JSON.parse(
+      localStorage.getItem("user")
+    );
 
-  if(storedUser){
-    setUser(storedUser);
-  }
+    if (storedUser) {
+      setUser(storedUser);
+    }
 
-}, []);
+  }, []);
 
   const handleChange = (e) => {
     setUser({
@@ -34,26 +35,26 @@ function Profile() {
 
   const saveProfile = async () => {
 
-  const result = await authService.updateProfile(user);
+    const result = await authService.updateProfile(user);
 
-  if(result.success){
+    if (result.success) {
 
-    localStorage.setItem(
-      "user",
-      JSON.stringify(result.data)
-    );
+      localStorage.setItem(
+        "user",
+        JSON.stringify(result.data)
+      );
 
-    alert("Profile Updated");
+toast.success(
+  "Profile Updated Successfully!"
+);
+      setUser(result.data);
 
-    setUser(result.data);
+      setEditing(false);
 
-    setEditing(false);
+    } else {
 
-  } else {
-
-    alert(result.message);
-  }
-};
+toast.error(result.message);    }
+  };
 
   return (
     <div className="profile-container">
@@ -81,17 +82,35 @@ function Profile() {
 
             {
               editing
-              ? (
-                <input
-                  type="text"
-                  name="name"
-                  value={user.name}
-                  onChange={handleChange}
-                />
-              )
-              : (
-                <p>{user.name}</p>
-              )
+                ? (
+                  <input
+                    type="text"
+                    name="name"
+                    value={user.name}
+                    onChange={handleChange}
+                  />
+                )
+                : (
+                  <p>{user.name}</p>
+                )
+            }
+          </div>
+          <div className="detail-box">
+            <label>Budget Limit</label>
+
+            {
+              editing
+                ? (
+                  <input
+                    type="number"
+                    name="budgetLimit"
+                    value={user.budgetLimit}
+                    onChange={handleChange}
+                  />
+                )
+                : (
+                  <p>₹{user.budgetLimit}</p>
+                )
             }
           </div>
 
@@ -100,18 +119,18 @@ function Profile() {
 
             {
               editing
-              ? (
-                <input
-                  type="date"
-                  name="dob"
-                  value={user.dob}
-                  onChange={handleChange}
-                />
-              )
-              : (
-                //<p>{user.dob}</p>
-                <p>{user.dob?.split("T")[0]}</p>
-              )
+                ? (
+                  <input
+                    type="date"
+                    name="dob"
+                    value={user.dob}
+                    onChange={handleChange}
+                  />
+                )
+                : (
+                  //<p>{user.dob}</p>
+                  <p>{user.dob?.split("T")[0]}</p>
+                )
             }
           </div>
 
@@ -120,17 +139,17 @@ function Profile() {
 
             {
               editing
-              ? (
-                <input
-                  type="email"
-                  name="email"
-                  value={user.email}
-                  onChange={handleChange}
-                />
-              )
-              : (
-                <p>{user.email}</p>
-              )
+                ? (
+                  <input
+                    type="email"
+                    name="email"
+                    value={user.email}
+                    onChange={handleChange}
+                  />
+                )
+                : (
+                  <p>{user.email}</p>
+                )
             }
           </div>
 
@@ -139,17 +158,17 @@ function Profile() {
 
             {
               editing
-              ? (
-                <input
-                  type="text"
-                  name="username"
-                  value={user.username}
-                  onChange={handleChange}
-                />
-              )
-              : (
-                <p>{user.username}</p>
-              )
+                ? (
+                  <input
+                    type="text"
+                    name="username"
+                    value={user.username}
+                    onChange={handleChange}
+                  />
+                )
+                : (
+                  <p>{user.username}</p>
+                )
             }
           </div>
 
@@ -157,22 +176,22 @@ function Profile() {
 
         {
           editing
-          ? (
-           <button
-             className="edit-btn"
-              onClick={saveProfile}
-            >
-            Save Profile
-           </button>
-          )
-          : (
-            <button
-              className="edit-btn"
-              onClick={() => setEditing(true)}
-            >
-              Edit Profile
-            </button>
-          )
+            ? (
+              <button
+                className="edit-btn"
+                onClick={saveProfile}
+              >
+                Save Profile
+              </button>
+            )
+            : (
+              <button
+                className="edit-btn"
+                onClick={() => setEditing(true)}
+              >
+                Edit Profile
+              </button>
+            )
         }
 
       </div>

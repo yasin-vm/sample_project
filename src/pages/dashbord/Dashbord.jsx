@@ -274,8 +274,12 @@ function Dashbord() {
     setFilteredTransactions(result);
   };
 
-  const [budgetLimit, setBudgetLimit] =
-    useState(20000);
+  const user = JSON.parse(
+  localStorage.getItem("user")
+);
+
+const budgetLimit =
+  user?.budgetLimit || 20000;
 
   const budgetExceeded =
     totalExpense >

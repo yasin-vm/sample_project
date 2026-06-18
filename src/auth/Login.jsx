@@ -22,27 +22,28 @@ function Login({ setPage }) {
   const navigate = useNavigate();
 
   const handleLogin = async (values) => {
-    console.log(values);
+
 
     const result = await authService.login(
       values.username,
       values.password
     );
     if (result.success) {
-      toast.success(
-        "Login Successful"
-      );
+
+     
 
       localStorage.setItem(
         "user",
         JSON.stringify(result.data)
       );
+      toast.success("Logged in using Enter!");
       navigate('/app/dashbord');
+
     } else {
       toast.error(result.message);
     }
 
-    console.log(result);
+    
   };
 
   return (
@@ -59,12 +60,18 @@ function Login({ setPage }) {
         >
           {({ errors, touched }) => (
             <Form>
-              <Field name="username" type="text" placeholder="User Name" />
+              <Field autoFocus name="username" type="text" placeholder="User Name" />
               {errors.username && touched.username ? (
                 <div className="error-message">{errors.username}</div>
               ) : null}
 
-              <Field name="password" type="password" placeholder="Password" />
+              {/* <Field name="password" type="password" placeholder="Password" /> */}
+              <Field
+                name="password"
+                type="password"
+                placeholder="Password"
+                
+              />
               {errors.password && touched.password ? (
                 <div className="error-message">{errors.password}</div>
               ) : null}
