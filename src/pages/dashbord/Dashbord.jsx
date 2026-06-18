@@ -1,6 +1,8 @@
 import "./Dashbord.css";
 import { useNavigate } from "react-router";
 import AddTransaction from "../../components/buttons/AddTransaction";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 import {
   LineChart,
   Line,
@@ -13,7 +15,9 @@ import {
   Pie,
   Cell
 } from "recharts";
-import { useState, useEffect } from "react"; import transactionService from "../../services/transactionService";
+import { toast } from "react-toastify";
+import { useState, useEffect } from "react";
+import transactionService from "../../services/transactionService";
 function Dashbord() {
 
   const [transactions, setTransactions] = useState([]);
@@ -26,6 +30,61 @@ function Dashbord() {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const [editData, setEditData] = useState(null);
+
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+
+  const [selectedTransaction, setSelectedTransaction] =
+    useState(null);
+
+  const exportPDF = () => {
+
+    const doc = new jsPDF();
+
+    doc.setFontSize(20);
+    doc.text("Budget Report", 14, 20);
+
+    autoTable(doc, {
+      startY: 35,
+
+      head: [[
+        "Category",
+        "Type",
+        "Amount",
+        "Date"
+      ]],
+
+      body: displayedTransactions.map(
+        (t) => [
+          t.category,
+          t.type,
+          `Rs. ${t.amount}`,
+          new Date(t.date)
+            .toLocaleDateString()
+        ]
+      )
+    });
+    const finalY =
+      doc.lastAutoTable.finalY + 15;
+
+    doc.text(
+      `Total Income : Rs. ${totalIncome}`,
+      14,
+      finalY
+    );
+
+    doc.text(
+      `Total Expense : Rs. ${totalExpense}`,
+      14,
+      finalY + 10
+    );
+
+    doc.text(
+      `Savings : Rs. ${totalSavings}`,
+      14,
+      finalY + 20
+    );
+    doc.save("Budget_Report.pdf");
+  };
   // Use search results if available
   const chartTransactions =
     filteredTransactions.length > 0
@@ -104,6 +163,16 @@ function Dashbord() {
 
   };
 
+  const handleDeleteClick = (transaction) => {
+
+    setSelectedTransaction(
+      transaction
+    );
+
+    setShowDeleteModal(true);
+
+  };
+
   const handleDelete = async (id) => {
 
     const result =
@@ -125,6 +194,34 @@ function Dashbord() {
 
   }, []);
 
+  const confirmDelete = async () => {
+
+    const result =
+      await transactionService
+        .deleteTransaction(
+          selectedTransaction._id
+        );
+
+    if (result.success) {
+
+      await loadTransactions();
+
+      setShowDeleteModal(false);
+
+      setSelectedTransaction(null);
+
+      toast.success(
+        "Transaction Deleted"
+      );
+
+    } else {
+
+      toast.error(
+        result.message
+      );
+    }
+  };
+
   const totalIncome = transactions
     .filter(t => t.type === "income")
     .reduce(
@@ -145,6 +242,19 @@ function Dashbord() {
   const totalTransactions =
     transactions.length;
 
+  const currentMonthTransactions =
+    transactions.filter(t => {
+
+      const d = new Date(t.date);
+      const today = new Date();
+
+      return (
+        d.getMonth() === today.getMonth() &&
+        d.getFullYear() === today.getFullYear()
+      );
+
+    }).length;
+
   //search using date
   const handleSearch = () => {
 
@@ -164,6 +274,15 @@ function Dashbord() {
     setFilteredTransactions(result);
   };
 
+  const [budgetLimit, setBudgetLimit] =
+    useState(20000);
+
+  const budgetExceeded =
+    totalExpense >
+    budgetLimit;
+  const budgetRemaining =
+    budgetLimit - totalExpense;
+
   //total search
   const searchIncome = filteredTransactions
     .filter(t => t.type === "income")
@@ -182,25 +301,39 @@ function Dashbord() {
   const searchSavings =
     searchIncome - searchExpense;
 
-  const displayedTransactions = transactions.filter(
-    (transaction) => {
+  const displayedTransactions = [...transactions]
+
+    .filter((transaction) => {
 
       const matchesSearch =
         transaction.category
           .toLowerCase()
-          .includes(searchText.toLowerCase());
+          .includes(
+            searchText.toLowerCase()
+          );
 
       const matchesFilter =
         filterType === "all"
           ? true
           : transaction.type === filterType;
 
-      return matchesSearch && matchesFilter;
-    }
-  );
-  console.log("Transactions:", transactions);
-  console.log("Displayed:", displayedTransactions);
-  console.log("PIE DATA:", pieData);
+      return (
+        matchesSearch &&
+        matchesFilter
+      );
+
+    })
+
+    .sort(
+      (a, b) =>
+        new Date(
+          b.createdAt || b.date
+        ).getTime() -
+        new Date(
+          a.createdAt || a.date
+        ).getTime()
+    )
+
 
 
   return (
@@ -286,7 +419,30 @@ function Dashbord() {
           <p>{totalTransactions}</p>
         </div>
 
+        <div className="card month">
+          <h2>📅 This Month</h2>
+          <p>{currentMonthTransactions}</p>
+        </div>
+
       </div>
+      <div
+        className={
+          budgetExceeded
+            ? "budget-alert"
+            : "budget-safe"
+        }
+      >
+
+        {
+          budgetExceeded
+            ? `⚠ Budget Exceeded by ₹${Math.abs(
+              budgetRemaining
+            )}`
+            : `✅ Budget Remaining ₹${budgetRemaining}`
+        }
+
+      </div>
+
       <div className="charts-container">
 
         <div className="graph-section">
@@ -396,6 +552,13 @@ function Dashbord() {
         </select>
 
         <button
+          type="button"
+          onClick={exportPDF}
+        >
+          📄 Export PDF
+        </button>
+
+        <button
           onClick={() => setShowModal(true)}
         >
           + Add Transaction
@@ -452,7 +615,7 @@ function Dashbord() {
 
                 className="icon-btn delete-btn"
                 onClick={() =>
-                  handleDelete(transaction._id)
+                  handleDeleteClick(transaction)
                 }
               >
                 ✕
@@ -501,6 +664,54 @@ function Dashbord() {
         </div>
 
       )}
+
+      {
+        showDeleteModal && (
+
+          <div className="modal-overlay">
+
+            <div className="delete-modal">
+
+              <h2>
+                Delete Transaction?
+              </h2>
+
+              <p>
+
+                {selectedTransaction?.category}
+
+                {" - ₹"}
+
+                {selectedTransaction?.amount}
+
+              </p>
+
+              <div className="delete-actions">
+
+                <button
+                  className="cancel-btn"
+                  onClick={() =>
+                    setShowDeleteModal(false)
+                  }
+                >
+                  Cancel
+                </button>
+
+                <button
+                  className="confirm-delete-btn"
+                  onClick={confirmDelete}
+                >
+                  Delete
+                </button>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        )
+      }
     </div>
   );
 }

@@ -3,6 +3,7 @@ import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import transactionService from "../../services/transactionService"; // Adjusted relative path to your service
 import "./AddTransaction.css";
+import { toast } from "react-toastify";
 
 const TransactionSchema = Yup.object().shape({
   type: Yup.string().required("Please select a transaction type"),
@@ -26,6 +27,12 @@ function AddTransaction({ onSuccess, editData }) {
       amount: Number(values.amount)
     };
 
+    const toastId = toast.loading(
+      editData
+        ? "Updating Transaction..."
+        : "Saving Transaction..."
+    );
+
     let result;
 
     if (editData) {
@@ -47,20 +54,31 @@ function AddTransaction({ onSuccess, editData }) {
     }
     if (result.success) {
 
-      alert("Transaction added successfully!");
+      toast.update(toastId, {
+        render: editData
+          ? "Transaction Updated Successfully"
+          : "Transaction Added Successfully",
+        type: "success",
+        isLoading: false,
+        autoClose: 3000
+      });
 
       resetForm();
-      console.log("Calling onSuccess");
+
       if (onSuccess) {
         onSuccess();
       }
 
     } else {
 
-      alert(
-        result.message ||
-        "Failed to save the transaction. Please try again."
-      );
+      toast.update(toastId, {
+        render:
+          result.message ||
+          "Failed to Save Transaction",
+        type: "error",
+        isLoading: false,
+        autoClose: 3000
+      });
 
     }
 

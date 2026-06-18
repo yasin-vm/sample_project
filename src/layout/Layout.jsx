@@ -2,14 +2,21 @@ import "./Layout.css";
 import { Link, Outlet } from "react-router";
 
 function Layout() {
+  const user = JSON.parse(
+    localStorage.getItem("user")
+  );
+
+  const avatarLetter =
+    user?.name?.charAt(0).toUpperCase();
+
   return (
     <div className="layout">
 
       <div id="navbar">
 
-        <div className="logo">
-          MERN APP
-        </div>
+        <h2 className="logo">
+          💰 Budget Tracker
+        </h2>
 
         <div className="nav-links">
 
@@ -20,6 +27,18 @@ function Layout() {
           <Link to="/app/profile">
             Profile
           </Link>
+
+          <div className="user-info">
+
+            <div className="user-avatar">
+              {avatarLetter}
+            </div>
+
+            <span className="user-name">
+              {user?.name}
+            </span>
+
+          </div>
 
           <Link to="/">
             Logout

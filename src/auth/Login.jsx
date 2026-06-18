@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router";
 import Button from "../components/buttons/Button";
 import { Field, Form, Formik } from "formik";
 import * as Yup from 'yup';
+import { toast } from "react-toastify";
 
 const LoginSchema = Yup.object().shape({
   username: Yup.string()
@@ -19,7 +20,7 @@ const LoginSchema = Yup.object().shape({
 
 function Login({ setPage }) {
   const navigate = useNavigate();
-  
+
   const handleLogin = async (values) => {
     console.log(values);
 
@@ -28,13 +29,17 @@ function Login({ setPage }) {
       values.password
     );
     if (result.success) {
+      toast.success(
+        "Login Successful"
+      );
+
       localStorage.setItem(
         "user",
         JSON.stringify(result.data)
       );
       navigate('/app/dashbord');
     } else {
-      alert(result.message);
+      toast.error(result.message);
     }
 
     console.log(result);
@@ -58,12 +63,12 @@ function Login({ setPage }) {
               {errors.username && touched.username ? (
                 <div className="error-message">{errors.username}</div>
               ) : null}
-              
-              <Field name="password" type="password" placeholder="Password"/>
+
+              <Field name="password" type="password" placeholder="Password" />
               {errors.password && touched.password ? (
                 <div className="error-message">{errors.password}</div>
               ) : null}
-              
+
               <div className="options">
                 <label>
                   <input type="checkbox" />
@@ -74,9 +79,9 @@ function Login({ setPage }) {
                   Forgot Password?
                 </a>
               </div>
-              
+
               <Button buttonText={'LOGIN'} type={'submit'} />
-              
+
               <p className="signup-link">
                 Don't have an account?
                 <Link id="one" to="/signup">Sign up</Link>
